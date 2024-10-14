@@ -129,19 +129,19 @@ test/fast:
 .PHONY : test/fast
 
 # target to build an object file
-src/chicken.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\test.dir\build.make CMakeFiles/test.dir/src/chicken.obj
-.PHONY : src/chicken.obj
+src/main.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test.dir\build.make CMakeFiles/test.dir/src/main.obj
+.PHONY : src/main.obj
 
 # target to preprocess a source file
-src/chicken.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\test.dir\build.make CMakeFiles/test.dir/src/chicken.i
-.PHONY : src/chicken.i
+src/main.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test.dir\build.make CMakeFiles/test.dir/src/main.i
+.PHONY : src/main.i
 
 # target to generate assembly for a file
-src/chicken.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\test.dir\build.make CMakeFiles/test.dir/src/chicken.s
-.PHONY : src/chicken.s
+src/main.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test.dir\build.make CMakeFiles/test.dir/src/main.s
+.PHONY : src/main.s
 
 # Help Target
 help:
@@ -152,9 +152,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... test
-	@echo ... src/chicken.obj
-	@echo ... src/chicken.i
-	@echo ... src/chicken.s
+	@echo ... src/main.obj
+	@echo ... src/main.i
+	@echo ... src/main.s
 .PHONY : help
 
 

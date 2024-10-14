@@ -68,29 +68,29 @@ include CMakeFiles/test.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/test.dir/flags.make
 
-CMakeFiles/test.dir/src/chicken.obj: CMakeFiles/test.dir/flags.make
-CMakeFiles/test.dir/src/chicken.obj: CMakeFiles/test.dir/includes_CXX.rsp
-CMakeFiles/test.dir/src/chicken.obj: D:/test/src/chicken.cpp
-CMakeFiles/test.dir/src/chicken.obj: CMakeFiles/test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test.dir/src/chicken.obj"
-	C:\Users\32823\Desktop\Dev-Cpp\MinGW32\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test.dir/src/chicken.obj -MF CMakeFiles\test.dir\src\chicken.obj.d -o CMakeFiles\test.dir\src\chicken.obj -c D:\test\src\chicken.cpp
+CMakeFiles/test.dir/src/main.obj: CMakeFiles/test.dir/flags.make
+CMakeFiles/test.dir/src/main.obj: CMakeFiles/test.dir/includes_CXX.rsp
+CMakeFiles/test.dir/src/main.obj: D:/test/src/main.cpp
+CMakeFiles/test.dir/src/main.obj: CMakeFiles/test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test.dir/src/main.obj"
+	C:\Users\32823\Desktop\Dev-Cpp\MinGW32\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test.dir/src/main.obj -MF CMakeFiles\test.dir\src\main.obj.d -o CMakeFiles\test.dir\src\main.obj -c D:\test\src\main.cpp
 
-CMakeFiles/test.dir/src/chicken.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test.dir/src/chicken.i"
-	C:\Users\32823\Desktop\Dev-Cpp\MinGW32\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\test\src\chicken.cpp > CMakeFiles\test.dir\src\chicken.i
+CMakeFiles/test.dir/src/main.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test.dir/src/main.i"
+	C:\Users\32823\Desktop\Dev-Cpp\MinGW32\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\test\src\main.cpp > CMakeFiles\test.dir\src\main.i
 
-CMakeFiles/test.dir/src/chicken.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test.dir/src/chicken.s"
-	C:\Users\32823\Desktop\Dev-Cpp\MinGW32\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\test\src\chicken.cpp -o CMakeFiles\test.dir\src\chicken.s
+CMakeFiles/test.dir/src/main.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test.dir/src/main.s"
+	C:\Users\32823\Desktop\Dev-Cpp\MinGW32\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\test\src\main.cpp -o CMakeFiles\test.dir\src\main.s
 
 # Object files for target test
 test_OBJECTS = \
-"CMakeFiles/test.dir/src/chicken.obj"
+"CMakeFiles/test.dir/src/main.obj"
 
 # External object files for target test
 test_EXTERNAL_OBJECTS =
 
-D:/test/bin/test.exe: CMakeFiles/test.dir/src/chicken.obj
+D:/test/bin/test.exe: CMakeFiles/test.dir/src/main.obj
 D:/test/bin/test.exe: CMakeFiles/test.dir/build.make
 D:/test/bin/test.exe: CMakeFiles/test.dir/linkLibs.rsp
 D:/test/bin/test.exe: CMakeFiles/test.dir/objects1.rsp
