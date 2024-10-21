@@ -1,0 +1,300 @@
+#                            List.cpp中测试代码的设计思路
+
+#### 1. **初始化列表构造链表**
+
+- **目标**：测试使用初始化列表创建链表的功能，验证链表的初始构造是否正确。
+
+- **设计**：
+
+  - 使用初始化列表 `{1, 2, 3, 4, 5}` 创建一个链表 `link1`。
+  - 调用 `printList()` 输出链表的内容，确保每个节点的值按顺序被正确插入到链表中。
+
+- **代码**：
+
+  ```
+  SingleLinkedList<int> link1 {1, 2, 3, 4, 5};
+  std::cout << "Initial List (link1): ";
+  link1.printList();
+  ```
+
+- **预期输出**：
+
+  ``` cpp
+  Initial List (link1): 1 2 3 4 5
+  ```
+
+  
+
+- **原因**：链表的初始化是构造链表的第一步，必须确保使用初始化列表时，链表按顺序存储所有元素，且 `head` 和 `currentPos` 被正确设置。
+
+------
+
+#### 2. **复制构造函数**
+
+- **目标**：测试链表的复制构造函数，验证是否可以正确深拷贝链表。
+
+- **设计**：
+
+  - 通过 `SingleLinkedList<int> link2(link1);` 复制构造 `link1`。
+  - 调用 `printList()` 检查 `link2` 是否与 `link1` 中的元素一致，确保深拷贝正确。
+
+- **代码**：
+
+  ```
+  SingleLinkedList<int> link2(link1);
+  std::cout << "Copied List (link2): ";
+  link2.printList();
+  ```
+
+- **预期输出**：
+
+  ``` cpp
+  Copied List (link2): 1 2 3 4 5
+  ```
+
+  
+
+- **原因**：复制构造函数应确保链表中每个节点的值都被正确复制，并且 `link2` 的元素与 `link1` 完全相同且不共享同一块内存。
+
+------
+
+#### 3. **赋值操作符**
+
+- **目标**：测试赋值操作符 `operator=`，确保链表能够正确进行赋值。
+
+- **设计**：
+
+  - 使用 `link3 = link1;` 赋值 `link1` 给一个新链表 `link3`。
+  - 调用 `printList()` 输出 `link3` 的内容，验证赋值是否成功。
+
+- **代码**：
+
+  ```
+  SingleLinkedList<int> link3;
+  link3 = link1;
+  std::cout << "Assigned List (link3): ";
+  link3.printList();
+  ```
+
+- **预期输出**：
+
+- ``` cpp
+  Assigned List (link3): 1 2 3 4 5
+  ```
+
+- 
+
+- **原因**：赋值操作符需要处理深拷贝情况，因此赋值后的 `link3` 必须与 `link1` 相同，但独立。
+
+------
+
+#### 4. **插入元素**
+
+- **目标**：测试 `insert()` 函数，验证插入功能是否正确，尤其是插入元素后链表的连接是否保持完整。
+
+- **设计**：
+
+  - 使用 `link1.insert(10);` 向链表中插入元素 `10`，在 `currentPos` 之后插入。
+  - 调用 `printList()` 检查插入后的链表是否正确更新。
+
+- **代码**：
+
+  ```
+  std::cout << "Insert 10 after current element in link1." << std::endl;
+  link1.insert(10);
+  link1.printList();
+  ```
+
+- **预期输出**：
+
+  ``` cpp
+  Insert 10 after current element in link1.
+  1  10  2  3  4  5
+  ```
+
+  
+
+- **原因**：插入操作是链表常见的操作之一，必须验证插入后链表的顺序和指针连接是否保持一致。
+
+------
+
+#### 5. **查找元素**
+
+- **目标**：测试 `find()` 函数，验证在链表中查找特定元素的功能。
+
+- **设计**：
+
+  - 先使用 `link1.find(3);` 查找元素 `3`。
+  - 调用 `getCurrentVal()` 输出查找到的元素，验证查找是否成功。
+
+- **代码**：
+
+  ```
+  if (link1.find(3)) {
+      std::cout << "Element 3 found in link1. Current value: " << link1.getCurrentVal() << std::endl;
+  }
+  ```
+
+- **预期输出**：
+
+  ``` cpp
+  Element 3 found in link1. Current value: 3
+  ```
+
+  
+
+- **原因**：查找操作能够让用户在链表中定位到特定元素，确保链表的查找功能正常工作，并更新 `currentPos`。
+
+------
+
+#### 6. **获取和设置当前元素值**
+
+- **目标**：测试 `getCurrentVal()` 和 `setCurrentVal()`，验证链表中获取和修改当前节点值的功能。
+
+- **设计**：
+
+  - 使用 `link1.find(10)` 查找到元素 `10`。
+  - 调用 `setCurrentVal(20)` 修改当前节点的值为 `20`。
+  - 再次使用 `printList()` 检查链表是否更新成功。
+
+- **代码**：
+
+  ```
+  if (link1.find(10)) {
+      std::cout << "Set current value to 20 (was " << link1.getCurrentVal() << ")" << std::endl;
+      link1.setCurrentVal(20);
+      link1.printList();
+  }
+  ```
+
+- **预期输出**：
+
+  ``` cpp
+  Set current value to 20 (was 10)
+  1  20  2  3  4  5
+  ```
+
+  
+
+- **原因**：此操作验证链表中节点数据的访问和修改功能，确保链表中元素的值能正确获取和设置。
+
+------
+
+#### 7. **删除最后一个元素**
+
+- **目标**：测试 `remove()` 函数，验证删除链表中最后一个节点的功能。
+
+- **设计**：
+
+  - 使用 `link1.remove()` 删除链表中的最后一个节点。
+  - 调用 `printList()` 检查链表更新后的状态。
+
+- **代码**：
+
+  ```
+  std::cout << "Remove last element in link1." << std::endl;
+  link1.remove();
+  link1.printList();
+  ```
+
+- **预期输出**：
+
+  ``` cpp
+  Remove last element in link1.
+  1  20  2  3  4
+  ```
+
+  
+
+- **原因**：删除操作需要验证链表末端的指针是否被正确处理，以及是否释放了最后一个节点的内存。
+
+------
+
+#### 8. **检查链表是否为空**
+
+- **目标**：测试 `isEmpty()` 函数，验证链表是否为空的检查功能。
+
+- **设计**：
+
+  - 调用 `link1.isEmpty()` 检查链表是否为空，输出结果。
+
+- **代码**：
+
+  ```
+  std::cout<< "Is link1 empty? " << (link1.isEmpty() ? "Yes" : "No") << std::endl;
+  ```
+
+- **预期输出**：
+
+  ``` cpp
+  Is link1 empty? No
+  ```
+
+  
+
+- **原因**：验证链表是否为空是常见的链表状态检查，需要确保函数返回的结果与链表实际内容一致。
+
+------
+
+#### 9. **获取链表大小**
+
+- **目标**：测试 `getSize()` 函数，验证获取链表大小的功能。
+
+- **设计**：
+
+  - 调用 `link1.getSize()` 获取链表当前的大小并输出。
+
+- **代码**：
+
+  ```
+  std::cout << "Size of link1: " << link1.getSize() << std::endl;
+  ```
+
+- **预期输出**：
+
+  ``` cpp
+  Size of link1: 5
+  ```
+
+  
+
+- **原因**：链表大小需要随着插入和删除操作的变化而正确更新，因此该功能确保链表的节点数量被正确计算。
+
+------
+
+#### 10. **清空链表**
+
+- **目标**：测试 `emptyList()` 函数，验证清空整个链表的功能。
+
+- **设计**：
+
+  - 使用 `link1.emptyList()` 清空链表。
+  - 调用 `isEmpty()` 检查链表是否已清空，并使用 `getSize()` 验证链表大小为 `0`。
+
+- **代码**：
+
+  ```
+  std::cout << "Empty link1." << std::endl;
+  link1.emptyList();
+  std::cout << "Is link1 empty after emptying? " << (link1.isEmpty() ? "Yes" : "No") << std::endl;
+  std::cout << "Size of link1 after emptying: " << link1.getSize() << std::endl;
+  ```
+
+- **预期输出**：
+
+- ``` cpp
+  Empty link1.
+  Is link1 empty after emptying? Yes
+  Size of link1 after emptying: 0
+  ```
+
+- 
+
+  **原因**：清空链表涉及释放所有节点内存，确保链表在清空后回到初始状态，且所有节点正确删除。
+
+
+
+
+
+
+
