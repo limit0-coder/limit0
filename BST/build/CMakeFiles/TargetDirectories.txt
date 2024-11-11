@@ -1,0 +1,3 @@
+D:/BST/build/CMakeFiles/test.dir
+D:/BST/build/CMakeFiles/edit_cache.dir
+D:/BST/build/CMakeFiles/rebuild_cache.dir
