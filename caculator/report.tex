@@ -1,0 +1,189 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{enumitem}
+
+\title{Arithmetic Calculator Design Report}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Design Approach}
+
+\subsection{Project Objectives}
+
+The arithmetic calculator is designed to implement a universal tool that supports the parsing and calculation of complex mathematical expressions. The objectives include:
+
+\begin{itemize}[label=\textbullet]
+    \item \textbf{Basic Functionality Support:}
+    \begin{itemize}
+        \item Parse input expressions and support four basic operations: addition, subtraction, multiplication, and division.
+        \item Support parsing of operation precedence with nested parentheses.
+    \end{itemize}
+    \item \textbf{Extended Functionality:}
+    \begin{itemize}
+        \item \textbf{Negative Number Support:} Correctly parse the sign of negative numbers and handle them as valid operands.
+        \item \textbf{Scientific Notation Support:} Handle numbers with scientific notation (e.g., 5.2e3 or -5e-3) and calculate them correctly.
+    \end{itemize}
+    \item \textbf{Illegal Input Detection:}
+    \begin{itemize}
+        \item Ensure the format of the user’s input expression is correct.
+        \item Provide clear error messages for illegal inputs such as extra operators, missing operands, unmatched parentheses, etc.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Program Structure}
+
+The implementation of the program is based on the C++ language and follows a modular design. It is mainly divided into the following core modules:
+
+\begin{itemize}
+    \item \textbf{Character Parsing Module:}
+    \begin{itemize}
+        \item Parse the input mathematical expression character by character.
+        \item Recognize characters as numbers, operators, or parentheses according to their category and determine if they conform to syntax rules.
+    \end{itemize}
+    \item \textbf{Number Parsing Module:}
+    \begin{itemize}
+        \item A unified parsing method is designed for conventional numbers, decimals, and scientific notation.
+        \item The function \texttt{stringToDouble} is responsible for parsing various formats of numbers, including negative numbers and exponents.
+    \end{itemize}
+    \item \textbf{Operation Logic Module:}
+    \begin{itemize}
+        \item Use a stack structure to store operands and operators, implementing priority control for arithmetic operations.
+        \item \textbf{Operator Priority Rules:}
+        \begin{itemize}
+            \item Multiplication and division have higher priority than addition and subtraction.
+            \item Operations within parentheses take precedence over those outside.
+            \item When encountering parentheses, recursively call the \texttt{calculate} function to parse expressions within the parentheses.
+        \end{itemize}
+    \end{itemize}
+    \item \textbf{Error Handling Module:}
+    \begin{itemize}
+        \item Illegal inputs throw exceptions through the \texttt{illegal()} function for unified error handling.
+        \item If division by zero or invalid characters are encountered, the program will immediately terminate the current calculation and output an error message.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Implementation of Special Features}
+
+\textbf{Handling of Negative Numbers:}
+\begin{itemize}
+    \item Detect the sign bit (e.g., '-') when parsing numbers and mark it as a negative number.
+    \item Negative numbers are stored and calculated directly as valid numbers in the operand stack.
+    \item For example, (-5+-2) can be correctly parsed and calculated as the sum of two negative numbers.
+    \item \textbf{Technical Detail:} The \texttt{stringToDouble} function checks the first character of the number to determine if it is a negative sign. If it is, the function sets the \texttt{Neg} variable to -1, which is used later to multiply the result, effectively making the number negative.
+    \item An important detail in the implementation is the use of an integer variable \texttt{state} to track the current context of parsing. The variable \texttt{state} can be one of three values: \texttt{OPERATOR}, \texttt{NUMBER}, or \texttt{BRACKET}, which helps in determining whether a '-' sign encountered is a negative number or a subtraction operator.
+\end{itemize}
+
+\textbf{Handling of Scientific Notation:}
+\begin{itemize}
+    \item When 'e' or 'E' is detected in a number, parse the exponent part.
+    \item The exponent part can be positive or negative, e.g., 5.2e3 is parsed as 5200, and -5e-3 is parsed as -0.005.
+    \item Scientific notation conversion is implemented through the function \texttt{pow(10, exponent)}.
+\end{itemize}
+
+\subsection{Result Analysis}
+
+Below are the test results and analysis for the program against a series of typical inputs:
+
+\begin{center}
+\begin{tabular}{|p{0.3\textwidth}|p{0.1\textwidth}|p{0.5\textwidth}|}
+\hline
+\textbf{Input Expression} & \textbf{Output Result} & \textbf{Explanation} \\
+\hline
+(-5+-2)*-2 & Answer = 14.00 & Correct parsing of negative numbers and nested parentheses, calculation result meets expectations. \\
+\hline
+(5++1) & ILLEGAL & Detected extra operator ++, error reported correctly. \\
+\hline
+5.e2 & ILLEGAL & Missing number after decimal point (illegal format), correctly reported as an error. \\
+\hline
+5.2e3*2 & Answer = 10400.00 & Scientific notation parsed correctly, 5.2e3 equals 5200, multiplication result meets expectations. \\
+\hline
+-5e-3*2 & Answer = -0.01 & Scientific notation handles negative exponents, calculation result is -0.005*2, result is correct. \\
+\hline
+5/0 & ILLEGAL & Division by zero detected, correctly reported as an error. \\
+\hline
+34+ & ILLEGAL & Missing right operand (illegal format), correctly reported as an error. \\
+\hline
++34 & ILLEGAL & Input starts with extra operator +, illegal format error reported correctly. \\
+\hline
+-35 & Answer = -35.00 & Negative number parsed successfully, single negative number as an operand, result is correct. \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Performance of Negative Number Parsing:}
+\begin{itemize}
+    \item Can correctly handle negative numbers, with the negative sign either at the beginning of the expression (e.g., -35) or as part of an operator (e.g., (-5+-2)).
+    \item The parsing of negative numbers relies on the sign detection mechanism of the \texttt{stringToDouble} function, which is stable.
+\end{itemize}
+
+\textbf{Performance of Scientific Notation:}
+\begin{itemize}
+    \item Supports both positive and negative exponent forms of scientific notation and can correctly parse and calculate results.
+\end{itemize}
+
+\textbf{Mechanism of Parsing Scientific Notation:}
+When the parser encounters a number with an 'e' or 'E', it recognizes it as scientific notation. The number is split into a mantissa and an exponent. The mantissa is the number before the 'e', and the exponent is the number after the 'e'. The parser then calculates the value by multiplying the mantissa by 10 raised to the power of the exponent. For example, in the number 5.2e3, the mantissa is 5.2 and the exponent is 3, so the value is calculated as \(5.2 \times 10^3 = 5200\). Similarly, for -5e-3, the mantissa is -5, and the exponent is -3, so the value is calculated as \(-5 \times 10^{-3} = -0.005\).
+
+\textbf{Performance of Illegal Input Detection:}
+\begin{itemize}
+    \item Detects various illegal inputs and provides error messages, including:
+    \begin{itemize}
+        \item Illegal characters (e.g., extra operator ++)
+        \item Number format errors (e.g., 5.e2)
+        \item Operators missing operands (e.g., 34+)
+    \end{itemize}
+    \item In the test cases, all illegal inputs successfully reported errors, showing stable performance.
+\end{itemize}
+
+\section{Technical Details}
+
+\subsection{Number Parsing (\texttt{stringToDouble} Function)}
+
+\textbf{Core Functionality:}
+\begin{itemize}
+    \item Supports parsing of negative numbers.
+    \item Supports parsing of decimal points and
+    scientific notation.
+\end{itemize}
+
+\textbf{Implementation Logic:}
+\begin{itemize}
+\item Detect the sign bit; if it is a negative sign '-', mark the result as a negative number.
+\item Parse the integer part, converting characters to numerical values and accumulating them into the result.
+\item If a decimal point '.' is encountered, parse the decimal part and accumulate it into the result with a weight (1/10).
+\item Detect the scientific notation symbols 'e' or 'E', parse the exponent part, and calculate the final result through \texttt{pow(10, exponent)}.
+\end{itemize}
+
+\subsection{Handling of Negative Numbers and Subtraction Operator}
+
+The \texttt{stringToDouble} function is crucial for differentiating between negative numbers and subtraction operators. It checks the context in which the '-' sign appears:
+\begin{itemize}
+\item If the '-' sign is at the beginning of a number or after a decimal point, it is considered a negative sign.
+\item If the '-' sign appears between two numbers or after an operator, it is considered a subtraction operator.
+\item This distinction is made by examining the position of the '-' sign within the input string and the state of the parser (whether it is currently parsing a number or an operator). The integer variable \texttt{state} is used to track this context, with values \texttt{OPERATOR}, \texttt{NUMBER}, or \texttt{BRACKET}.
+\end{itemize}
+
+\subsection{Operation Priority (Stack Implementation)}
+
+Two stacks are used:
+\begin{itemize}
+\item The \texttt{num} stack stores operands.
+\item The \texttt{op} stack stores operators.
+\end{itemize}
+
+\textbf{Operation Process:}
+\begin{itemize}
+\item If the current character is a number or parenthesis, parse and push it onto the stack.
+\item If it is an operator, pop operators from the top of the stack based on priority rules (multiplication and division have higher priority than addition and subtraction) and perform calculations.
+\item When encountering parentheses, recursively parse the internal expression until the parentheses are matched.
+\end{itemize}
+
+\end{document}
